@@ -8,7 +8,7 @@ import NotefulContext from '../NotefulContext/NotefulContext'
 export default function Note(props) {
   return (
     <NotefulContext.Consumer>
-    {({deleteHandler}) => (
+    {(deleteHandler) => (
     <div className='Note'>
       <h2 className='Note__title'>
         <Link to={`/note/${props.id}`}>
@@ -32,7 +32,7 @@ export default function Note(props) {
         </div>
       </div>
     </div>
-    )}}
+    )}
     </NotefulContext.Consumer>
   )
 }

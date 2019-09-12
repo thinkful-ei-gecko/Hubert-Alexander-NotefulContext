@@ -26,6 +26,7 @@ class App extends Component {
           })
           .then(resp => resp.json())
           .then(folderData => {
+            console.log(folderData);
             this.setState({folders: folderData})
           })
         // Fetch data for notes
@@ -36,6 +37,7 @@ class App extends Component {
         })
         .then(resp => resp.json())
         .then(notesData => {
+          console.log(notesData);
           this.setState({notes: notesData})
         })
   }
