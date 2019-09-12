@@ -8,7 +8,7 @@ import NotefulContext from '../NotefulContext/NotefulContext'
 export default function Note(props) {
   return (
     <NotefulContext.Consumer>
-    {(deleteHandler) => (
+    {({deleteNote}) => (
     <div className='Note'>
       <h2 className='Note__title'>
         <Link to={`/note/${props.id}`}>
@@ -16,7 +16,7 @@ export default function Note(props) {
         </Link>
       </h2>
         <button
-          onClick={() => props.deleteNoteHandler()}
+          onClick={() => deleteNote(props.id)}
           className='Note__delete' type='button'>
           <FontAwesomeIcon icon='trash-alt' />
           {' '}

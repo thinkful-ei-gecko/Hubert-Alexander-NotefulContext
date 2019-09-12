@@ -42,8 +42,8 @@ class App extends Component {
         })
   }
 
-    deleteNote = (noteId) => {      
-      if (this.state.notes === noteId) {
+    deleteNote = (noteId) => {
+      console.log('please delete', noteId)
         fetch(`http://localhost:9090/notes/${noteId}`, {
           method: 'DELETE',
           headers: {
@@ -52,11 +52,10 @@ class App extends Component {
         })
         .then( () => {
           const newNotes = this.state.notes.filter(note => {
-            return note.id !== noteId})
-            this.setState({ notes: newNotes});
-        }
-        )
-      }
+            return note.id !== noteId
+          })
+          this.setState({ notes: newNotes});
+        })
     }
 
     renderNavRoutes() {
@@ -132,7 +131,7 @@ class App extends Component {
         const contextValue = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNoteHandler: this.deleteNote
+            deleteNote: this.deleteNote
         }
         return (
             <NotefulContext.Provider value={contextValue}>
