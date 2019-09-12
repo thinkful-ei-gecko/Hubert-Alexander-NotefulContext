@@ -4,9 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNav.css'
+import NotefulContext from '../NotefulContext/NotefulContext'
+
+console.log(NotefulContext)
 
 export default function NoteListNav(props) {
   return (
+    <NotefulContext.Consumer>
+      {(value) => {
+        console.log(value)
+        return (
     <div className='NoteListNav'>
       <ul className='NoteListNav__list'>
         {props.folders.map(folder =>
@@ -36,6 +43,8 @@ export default function NoteListNav(props) {
         </CircleButton>
       </div>
     </div>
+      )}}
+    </NotefulContext.Consumer>
   )
 }
 

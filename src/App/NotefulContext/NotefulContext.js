@@ -1,3 +1,0 @@
-const notefulContext = React.createContext({
-  
-})
