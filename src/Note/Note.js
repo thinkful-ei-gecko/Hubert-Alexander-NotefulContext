@@ -3,20 +3,25 @@ import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Note.css'
+import NotefulContext from '../NotefulContext/NotefulContext'
 
 export default function Note(props) {
   return (
+    <NotefulContext.Consumer>
+    {({deleteHandler}) => (
     <div className='Note'>
       <h2 className='Note__title'>
         <Link to={`/note/${props.id}`}>
           {props.name}
         </Link>
       </h2>
-      <button className='Note__delete' type='button'>
-        <FontAwesomeIcon icon='trash-alt' />
-        {' '}
-        remove
-      </button>
+        <button
+          onClick={() => props.deleteNoteHandler()}
+          className='Note__delete' type='button'>
+          <FontAwesomeIcon icon='trash-alt' />
+          {' '}
+          remove
+        </button>
       <div className='Note__dates'>
         <div className='Note__dates-modified'>
           Modified
@@ -27,5 +32,7 @@ export default function Note(props) {
         </div>
       </div>
     </div>
+    )}}
+    </NotefulContext.Consumer>
   )
 }

@@ -7,6 +7,7 @@ import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
 import dummyStore from '../dummy-store';
 import NotefulContext from '../NotefulContext/NotefulContext';
+import { withRouter } from 'react-router-dom'
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
 
@@ -17,8 +18,43 @@ class App extends Component {
     };
 
     componentDidMount() {
-        // fake date loading from API call
-        setTimeout(() => this.setState(dummyStore), 600);
+        // Fetch data for Folders
+          fetch('http://localhost:9090/folders', {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+          .then(resp => resp.json())
+          .then(folderData => {
+            this.setState({folders: folderData})
+          })
+        // Fetch data for notes
+        fetch('http://localhost:9090/notes', {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+        .then(resp => resp.json())
+        .then(notesData => {
+          this.setState({notes: notesData})
+        })
+  }
+
+    deleteNote = (noteId) => {      
+      if (this.state.notes === noteId) {
+        fetch(`http://localhost:9090/notes/${noteId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then( () => {
+          const newNotes = this.state.notes.filter(note => {
+            return note.id !== noteId})
+            this.setState({ notes: newNotes});
+        }
+        )
+      }
     }
 
     renderNavRoutes() {
@@ -92,10 +128,12 @@ class App extends Component {
 
     render() {
         const contextValue = {
-
+            notes: this.state.notes,
+            folders: this.state.folders,
+            deleteNoteHandler: this.deleteNote
         }
         return (
-            //<NotefulContext.Provider>
+            <NotefulContext.Provider value={contextValue}>
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
                 <header className="App__header">
@@ -106,7 +144,7 @@ class App extends Component {
                 </header>
                 <main className="App__main">{this.renderMainRoutes()}</main>
             </div>
-            //</NotefulContext.Provider>
+            </NotefulContext.Provider>
         );
     }
 }
